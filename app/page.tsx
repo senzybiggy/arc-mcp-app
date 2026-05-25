@@ -1,45 +1,42 @@
 "use client";
 
-import { useState } from "react";
+const tokens = [
+  {
+    name: "BTC",
+    bullish: 78,
+    bearish: 22,
+    price: "$108,420",
+    trend: "Dominating market momentum",
+  },
+  {
+    name: "ETH",
+    bullish: 64,
+    bearish: 36,
+    price: "$5,840",
+    trend: "Strong whale accumulation",
+  },
+  {
+    name: "SOL",
+    bullish: 71,
+    bearish: 29,
+    price: "$312",
+    trend: "High velocity breakout",
+  },
+  {
+    name: "PEPE",
+    bullish: 44,
+    bearish: 56,
+    price: "$0.000031",
+    trend: "Meme momentum weakening",
+  },
+];
 
-export default function ChatPage() {
-  const [message, setMessage] = useState("");
-  const [reply, setReply] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function sendMessage() {
-    if (!message) return;
-
-    setLoading(true);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message,
-        }),
-      });
-
-      const data = await res.json();
-
-      setReply(data.reply || data.error);
-
-      setMessage("");
-    } catch (error) {
-      setReply("Failed to connect to AI.");
-    }
-
-    setLoading(false);
-  }
-
+export default function Home() {
   return (
     <main
       style={{
-        minHeight: "100vh",
         background: "#020617",
+        minHeight: "100vh",
         color: "white",
         padding: "40px",
         fontFamily: "Arial",
@@ -47,87 +44,221 @@ export default function ChatPage() {
     >
       <div
         style={{
-          maxWidth: "900px",
+          maxWidth: "1200px",
           margin: "0 auto",
         }}
       >
-        <h1
+        <div
           style={{
-            fontSize: "48px",
-            fontWeight: "bold",
-            marginBottom: "20px",
+            marginBottom: "50px",
           }}
         >
-          ARC MCP AI Chat
-        </h1>
+          <h1
+            style={{
+              fontSize: "72px",
+              fontWeight: "bold",
+              marginBottom: "16px",
+            }}
+          >
+            Market Arena
+          </h1>
 
-        <input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              sendMessage();
-            }
-          }}
-          placeholder="Ask anything about ARC..."
-          style={{
-            width: "100%",
-            padding: "16px",
-            background: "#0f172a",
-            border: "1px solid #334155",
-            color: "white",
-            borderRadius: "12px",
-            marginBottom: "20px",
-            fontSize: "16px",
-            outline: "none",
-          }}
-        />
+          <p
+            style={{
+              fontSize: "22px",
+              color: "#94a3b8",
+              maxWidth: "700px",
+              lineHeight: "1.6",
+            }}
+          >
+            Watch tokens battle in real time through bullish and bearish momentum.
+            AI powered sentiment tracking for crypto markets.
+          </p>
+        </div>
 
-        <button
-          onClick={sendMessage}
-          disabled={loading}
+        <div
           style={{
-            padding: "14px 24px",
-            background: "#2563eb",
-            border: "none",
-            borderRadius: "12px",
-            color: "white",
-            fontWeight: "bold",
-            cursor: "pointer",
-            marginBottom: "30px",
-            opacity: loading ? 0.7 : 1,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: "24px",
+            marginBottom: "50px",
           }}
         >
-          {loading ? "Thinking..." : "Send"}
-        </button>
+          {tokens.map((token) => (
+            <div
+              key={token.name}
+              style={{
+                background: "#0f172a",
+                padding: "24px",
+                borderRadius: "20px",
+                border: "1px solid #1e293b",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "18px",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: "32px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {token.name}
+                </h2>
+
+                <span
+                  style={{
+                    color: "#38bdf8",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {token.price}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: "14px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <span>🐂 Bulls</span>
+                  <span>{token.bullish}%</span>
+                </div>
+
+                <div
+                  style={{
+                    width: "100%",
+                    background: "#1e293b",
+                    height: "14px",
+                    borderRadius: "999px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${token.bullish}%`,
+                      background: "#22c55e",
+                      height: "100%",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <span>🐻 Bears</span>
+                  <span>{token.bearish}%</span>
+                </div>
+
+                <div
+                  style={{
+                    width: "100%",
+                    background: "#1e293b",
+                    height: "14px",
+                    borderRadius: "999px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${token.bearish}%`,
+                      background: "#ef4444",
+                      height: "100%",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div
+                style={{
+                  background: "#020617",
+                  padding: "14px",
+                  borderRadius: "12px",
+                  color: "#cbd5e1",
+                  lineHeight: "1.6",
+                }}
+              >
+                🤖 AI Insight: {token.trend}
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div
           style={{
             background: "#0f172a",
-            padding: "24px",
-            borderRadius: "16px",
-            lineHeight: "1.8",
+            borderRadius: "24px",
+            padding: "30px",
             border: "1px solid #1e293b",
-            minHeight: "200px",
           }}
         >
           <h2
             style={{
-              marginBottom: "16px",
-              fontSize: "22px",
+              fontSize: "36px",
+              marginBottom: "24px",
             }}
           >
-            AI Reply
+            Live Momentum Feed
           </h2>
 
-          <p
+          <div
             style={{
-              whiteSpace: "pre-wrap",
-              color: "#e2e8f0",
+              display: "flex",
+              flexDirection: "column",
+              gap: "18px",
             }}
           >
-            {reply || "Your AI response will appear here..."}
-          </p>
+            <div
+              style={{
+                background: "#020617",
+                padding: "18px",
+                borderRadius: "14px",
+              }}
+            >
+              🚀 BTC bulls increasing dominance after whale accumulation spike.
+            </div>
+
+            <div
+              style={{
+                background: "#020617",
+                padding: "18px",
+                borderRadius: "14px",
+              }}
+            >
+              ⚠️ PEPE bearish pressure intensifying across meme sectors.
+            </div>
+
+            <div
+              style={{
+                background: "#020617",
+                padding: "18px",
+                borderRadius: "14px",
+              }}
+            >
+              🔥 SOL momentum breakout attracting high trader attention.
+            </div>
+          </div>
         </div>
       </div>
     </main>
